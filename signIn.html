@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign up & Login</title>
+    <link rel="stylesheet" href="styles/signIn.css" />
+    <script
+      src="https://kit.fontawesome.com/437c001710.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <div id="grad">
+      <div class="form-box">
+        <h1 id="title">Sign Up</h1>
+        <form id="signupForm">
+          <div class="input-group">
+            <div class="input-field" id="nameField">
+              <i class="fa-solid fa-user"></i>
+              <input
+                type="text"
+                name="name"
+                placeholder="Enter your name (min. 6 characters)"
+                required
+              />
+              <div class="error-message" id="nameError"></div>
+            </div>
+            <div class="input-field">
+              <i class="fa-solid fa-envelope"></i>
+              <input
+                type="email"
+                name="email"
+                placeholder="Enter your email"
+                required
+              />
+              <div class="error-message" id="emailError"></div>
+            </div>
+            <div class="input-field" id="phnumberField">
+              <i class="fa-solid fa-phone"></i>
+              <input
+                type="tel"
+                name="phone"
+                placeholder="Enter your phone number (123-456-7890)"
+                required
+              />
+              <div class="error-message" id="phoneError"></div>
+            </div>
+            <div class="input-field">
+              <i class="fa-solid fa-lock"></i>
+              <input
+                type="password"
+                name="password"
+                placeholder="Enter your password"
+                required
+              />
+              <div class="error-message" id="passwordError"></div>
+            </div>
+            <p><a href="#">Forgot Password?</a></p>
+            <div class="btn-field">
+              <button type="submit" id="SignUpBtn">Sign Up</button>
+              <div id="SignIn">
+                Already have an account?
+                <button type="button" id="SignInBtn" class="disable">
+                  Sign In
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+        <form id="signInForm" style="display: none">
+          <div class="input-group">
+            <div class="input-field">
+              <i class="fa-solid fa-envelope"></i>
+              <input
+                type="email"
+                name="signinEmail"
+                placeholder="Enter your email"
+                required
+              />
+              <div class="error-message" id="signinEmailError"></div>
+            </div>
+            <div class="input-field">
+              <i class="fa-solid fa-lock"></i>
+              <input
+                type="password"
+                name="signinPassword"
+                placeholder="Enter your password"
+                required
+              />
+              <div class="error-message" id="signinPasswordError"></div>
+            </div>
+            <div class="btn-field">
+              <button type="submit" id="SignInBtn">Sign In</button>
+              <div id="SignUp">
+                Don't have an account?
+                <button
+                  type="button"
+                  id="SignUpBtn"
+                  class="disable"
+                  onclick="window. location. reload()"
+                >
+                  Sign Up
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <script>
+      function isValidPhoneNumber(phone) {
+        // Basic phone number validation
+        return /^\d{3}-\d{3}-\d{4}$/.test(phone);
+      }
+
+      function isValidEmail(email) {
+        // Basic email validation
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      }
+
+      document
+        .getElementById("signupForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          // Basic form validation
+          let nameInput = document.querySelector(
+            "#signupForm input[name='name']"
+          );
+          let emailInput = document.querySelector(
+            "#signupForm input[name='email']"
+          );
+          let phoneInput = document.querySelector(
+            "#signupForm input[name='phone']"
+          );
+          let passwordInput = document.querySelector(
+            "#signupForm input[name='password']"
+          );
+          let nameError = document.getElementById("nameError");
+          let emailError = document.getElementById("emailError");
+          let phoneError = document.getElementById("phoneError");
+          let passwordError = document.getElementById("passwordError");
+
+          nameError.textContent = "";
+          emailError.textContent = "";
+          phoneError.textContent = "";
+          passwordError.textContent = "";
+
+          // Validate name length
+          if (nameInput.value.length < 6) {
+            nameError.textContent = "Name must contain at least 6 characters.";
+          }
+
+          // Validate email and phone
+          if (!isValidEmail(emailInput.value)) {
+            emailError.textContent = "Please enter a valid email address.";
+          }
+          if (!isValidPhoneNumber(phoneInput.value)) {
+            phoneError.textContent =
+              "Please enter a valid phone number in the format 123-456-7890.";
+          }
+
+          if (!passwordInput.checkValidity()) {
+            passwordError.textContent = "Please enter a valid password.";
+          }
+
+          // Proceed with form submission (you can handle this part with AJAX to a server)
+
+          // Reset the form
+          document.getElementById("signupForm").reset();
+        });
+
+      document
+        .getElementById("SignInBtn")
+        .addEventListener("click", function () {
+          document.getElementById("signupForm").style.display = "none";
+          document.getElementById("signInForm").style.display = "block";
+          document.getElementById("title").textContent = "Sign In";
+        });
+
+      // document.getElementById("SignUpBtn").addEventListener("click", function () {
+      //     document.getElementById("signInForm").style.display = "none";
+      //     document.getElementById("signupForm").style.display = "block";
+      //     document.getElementById("title").textContent = "Sign Up";
+      // });
+
+      // Additional validation for Sign In form
+      document
+        .getElementById("signInForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          // Basic form validation for Sign In
+          let signInEmailInput = document.querySelector(
+            "#signInForm input[name='signinEmail']"
+          );
+          let signInPasswordInput = document.querySelector(
+            "#signInForm input[name='signinPassword']"
+          );
+
+          let signInEmailError = document.getElementById("signinEmailError");
+          let signInPasswordError = document.getElementById(
+            "signinPasswordError"
+          );
+
+          signInEmailError.textContent = "";
+          signInPasswordError.textContent = "";
+
+          // Validate Sign In email
+          if (!isValidEmail(signInEmailInput.value)) {
+            signInEmailError.textContent =
+              "Please enter a valid email address.";
+          }
+
+          if (!signInPasswordInput.checkValidity()) {
+            signInPasswordError.textContent = "Please enter a valid password.";
+          }
+
+          // Proceed with Sign In form submission (you can handle this part with AJAX to a server)
+
+          // Reset the form
+          document.getElementById("signInForm").reset();
+        });
+    </script>
+  </body>
+</html>
